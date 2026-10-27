@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <!-- 모바일 환경에서 화면 크기가 기기에 맞게 조절되도록 뷰포트 메타태그를 설정합니다 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AETHER GT - 미래형 전기 하이퍼카</title>
+
+  <!-- 웹폰트(Pretendard) 불러오기: 가독성 높고 트렌디한 한글/영문 폰트입니다 -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <!-- 아이콘 라이브러리(Font Awesome) 불러오기 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <style>
+    /* =========================================================
+       1. 전역 스타일 및 디자인 변수 (CSS Custom Properties)
+       ========================================================= */
+    :root {
+      /* 사이트 전체의 주요 색상 테마 정의 */
+      --bg-dark: #0a0b10;          /* 깊고 은은한 다크 배경색 */
+      --bg-card: rgba(22, 27, 40, 0.65); /* 반투명 카드 배경 (유리 효과) */
+      --primary-cyan: #00f2fe;     /* 미래지향적인 네온 시안/블루 */
+      --primary-purple: #9d4edd;   /* 화려한 네온 퍼플 */
+      --text-main: #f3f4f6;        /* 본문 텍스트 (밝은 화이트) */
+      --text-sub: #9ca3af;         /* 부가 설명 텍스트 (소프트 그레이) */
+      --border-glow: rgba(0, 242, 254, 0.25); /* 은은한 네온 테두리 */
+      --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); /* 부드러운 모션 */
+    }
+
+    /* 기본 여백 초기화 및 박스 모델 설정 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+    }
+
+    /* 부드러운 스크롤 이동 적용 */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      overflow-x: hidden; /* 가로 스크롤 방지 */
+      line-height: 1.6;
+    }
+
+    /* =========================================================
+       2. 네비게이션 헤더 (Header / Nav) - 유리 모피즘(Glassmorphism)
+       ========================================================= */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 75px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 5%;
+      z-index: 1000;
+      background: rgba(10, 11, 16, 0.7);
+      backdrop-filter: blur(14px); /* 뒤 배경 흐림 효과 */
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      transition: var(--transition-smooth);
+    }
+
+    /* 스크롤 시 헤더에 은은한 그림자 추가 */
+    header.scrolled {
+      background: rgba(10, 11, 16, 0.92);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+    }
+
+    /* 브랜드 로고 */
+    .logo {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo span {
+      background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* 네비게이션 링크 목록 */
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 32px;
+    }
+
+    .nav-links a {
+      color: var(--text-sub);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: var(--transition-smooth);
+      position: relative;
+    }
+
+    /* 마우스 호버 시 글자 색상 및 하단 밑줄 애니메이션 */
+    .nav-links a:hover {
+      color: var(--primary-cyan);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary-cyan), var(--primary-purple));
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* 강조 버튼 (시승 신청) */
+    .btn-glow {
+      padding: 10px 24px;
+      border-radius: 30px;
+      background: linear-gradient(135deg, var(--primary-cyan), var(--primary-purple));
+      color: #000;
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
+      transition: var(--transition-smooth);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-glow:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(0, 242, 254, 0.7);
+      color: #000;
+    }
+
+    /* 모바일 햄버거 메뉴 버튼 (데스크톱에서는 숨김) */
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* =========================================================
+       3. 메인 히어로 섹션 (중앙 비디오 배치 영역)
+       ========================================================= */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      padding: 140px 5% 80px 5%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: radial-gradient(circle at 50% 20%, rgba(157, 78, 221, 0.15), transparent 70%);
+    }
+
+    /* 상단 배지 태그 */
+    .hero-badge {
+      display: inline-block;
+      padding: 6px 18px;
+      border-radius: 50px;
+      background: rgba(0, 242, 254, 0.1);
+      border: 1px solid var(--border-glow);
+      color: var(--primary-cyan);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    /* 메인 타이틀 */
+    .hero-title {
+      font-size: clamp(2.2rem, 5vw, 4.2rem);
+      font-weight: 900;
+      line-height: 1.2;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+    }
+
+    .hero-title .gradient-text {
+      background: linear-gradient(135deg, #ffffff 20%, var(--primary-cyan) 60%, var(--primary-purple) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* 부제목 설명 */
+    .hero-desc {
+      color: var(--text-sub);
+      font-size: clamp(0.95rem, 1.8vw, 1.2rem);
+      max-width: 650px;
+      margin-bottom: 45px;
+    }
+
+    /* ---------------------------------------------------------
+       비디오 컨테이너 & 비디오 반응형 스타일링
+       모바일에서도 16:9 비율을 유지하며 왜곡되지 않도록 설정
+       --------------------------------------------------------- */
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 1100px; /* 데스크톱 최대 가로 너비 */
+      margin: 0 auto;
+      border-radius: 24px;
+      padding: 3px; /* 네온 그라디언트 테두리 두께 */
+      background: linear-gradient(135deg, rgba(0, 242, 254, 0.6), rgba(157, 78, 221, 0.3), rgba(255, 255, 255, 0.05));
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 50px rgba(0, 242, 254, 0.25);
+    }
+
+    .video-container {
+      position: relative;
+      width: 100%;
+      /* 16:9 화면 비율 유지: 최신 브라우저 표준 */
+      aspect-ratio: 16 / 9;
+      border-radius: 21px;
+      overflow: hidden;
+      background-color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* 비디오 본체 스타일 */
+    .video-container video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* 화면 여백 없이 꽉 채우며 왜곡 방지 */
+      display: block;
+    }
+
+    /* 영상 상하단에 자연스러운 비네팅(그라디언트 그림자) 추가 */
+    .video-overlay-glow {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none; /* 클릭 이벤트 통과 */
+      box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.6);
+      border-radius: 21px;
+    }
+
+    /* =========================================================
+       4. 차량 주요 제원 섹션 (Key Specs)
+       ========================================================= */
+    .specs-section {
+      padding: 100px 5%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section-tag {
+      color: var(--primary-cyan);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 800;
+      color: #fff;
+    }
+
+    /* 스펙 카드 그리드 레이아웃 */
+    .specs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+    }
+
+    .spec-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 35px 25px;
+      text-align: center;
+      position: relative;
+      transition: var(--transition-smooth);
+    }
+
+    /* 카드 호버 시 네온 빛 발광 효과 */
+    .spec-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--border-glow);
+      box-shadow: 0 15px 35px rgba(0, 242, 254, 0.2);
+    }
+
+    .spec-icon {
+      font-size: 2.2rem;
+      color: var(--primary-cyan);
+      margin-bottom: 16px;
+    }
+
+    .spec-value {
+      font-size: 2.6rem;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .spec-value span {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--primary-cyan);
+      margin-left: 4px;
+    }
+
+    .spec-label {
+      color: var(--text-sub);
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    /* =========================================================
+       5. 차량 혁신 기술 섹션 (Features)
+       ========================================================= */
+    .features-section {
+      padding: 100px 5%;
+      background: linear-gradient(180deg, var(--bg-dark) 0%, rgba(18, 22, 34, 0.8) 50%, var(--bg-dark) 100%);
+    }
+
+    .features-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 32px;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 24px;
+      padding: 40px 30px;
+      transition: var(--transition-smooth);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-cyan), var(--primary-purple));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(0, 242, 254, 0.3);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .feature-card:hover::before {
+      opacity: 1;
+    }
+
+    .feature-icon-box {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      background: rgba(0, 242, 254, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      color: var(--primary-cyan);
+      margin-bottom: 24px;
+    }
+
+    .feature-card h3 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      color: #fff;
+    }
+
+    .feature-card p {
+      color: var(--text-sub);
+      font-size: 0.98rem;
+      line-height: 1.7;
+    }
+
+    /* =========================================================
+       6. 인터랙티브 CTA 섹션 (Call to Action)
+       ========================================================= */
+    .cta-section {
+      padding: 100px 5%;
+      max-width: 1000px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .cta-box {
+      background: radial-gradient(circle at 50% 50%, rgba(0, 242, 254, 0.12), transparent 80%), var(--bg-card);
+      border: 1px solid var(--border-glow);
+      border-radius: 30px;
+      padding: 60px 40px;
+      box-shadow: 0 0 50px rgba(0, 242, 254, 0.15);
+    }
+
+    .cta-box h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .cta-box p {
+      color: var(--text-sub);
+      max-width: 550px;
+      margin: 0 auto 35px auto;
+      font-size: 1.05rem;
+    }
+
+    .cta-btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-secondary {
+      padding: 12px 28px;
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: var(--transition-smooth);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.18);
+      border-color: #fff;
+    }
+
+    /* =========================================================
+       7. 푸터 (Footer)
+       ========================================================= */
+    footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 50px 5% 30px 5%;
+      text-align: center;
+      color: var(--text-sub);
+      font-size: 0.9rem;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      color: var(--text-sub);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary-cyan);
+    }
+
+    /* =========================================================
+       8. 스크롤 애니메이션 클래스 (Intersection Observer 연동)
+       ========================================================= */
+    /* 화면에 나타나기 전 기본 상태: 투명하고 아래로 40px 내려간 상태 */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+
+    /* 뷰포트 진입 시 JavaScript가 추가해 주는 활성화 클래스 */
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* 지연 효과 (카드가 순서대로 나타나게 함) */
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+    .delay-3 { transition-delay: 0.3s; }
+    .delay-4 { transition-delay: 0.4s; }
+
+    /* =========================================================
+       9. 반응형 미디어 쿼리 (태블릿 및 모바일 최적화)
+       ========================================================= */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none; /* 모바일에서는 기본 메뉴 숨김 */
+        position: absolute;
+        top: 75px;
+        left: 0;
+        width: 100%;
+        background: rgba(10, 11, 16, 0.97);
+        backdrop-filter: blur(16px);
+        flex-direction: column;
+        padding: 30px;
+        gap: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        text-align: center;
+      }
+
+      .nav-links.active {
+        display: flex; /* 햄버거 메뉴 클릭 시 펼침 */
+      }
+
+      .mobile-menu-btn {
+        display: block; /* 햄버거 버튼 표시 */
+      }
+
+      .header-btn-wrap {
+        display: none; /* 모바일 헤더 우측 버튼 숨김 (메뉴 내 포함 가능) */
+      }
+
+      .hero {
+        padding: 120px 4% 60px 4%;
+      }
+
+      .video-wrapper {
+        border-radius: 16px;
+        padding: 2px;
+      }
+
+      .video-container {
+        border-radius: 14px;
+      }
+
+      .specs-grid {
+        grid-template-columns: 1fr; /* 모바일에서는 1열로 표시 */
+      }
+
+      .cta-box {
+        padding: 40px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =========================================================
+       상단 네비게이션 헤더
+       ========================================================= -->
+  <header id="mainHeader">
+    <a href="#" class="logo">
+      <i class="fa-solid fa-bolt-lightning"></i>
+      <span>AETHER</span> GT
+    </a>
+
+    <!-- 내비게이션 메뉴 목록 -->
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#hero">홈</a></li>
+      <li><a href="#specs">주요 제원</a></li>
+      <li><a href="#features">혁신 기술</a></li>
+      <li><a href="#experience">체험 신청</a></li>
+    </ul>
+
+    <!-- 헤더 우측 CTA 버튼 -->
+    <div class="header-btn-wrap">
+      <a href="#experience" class="btn-glow">
+        <i class="fa-solid fa-paper-plane"></i>
+        시승 신청
+      </a>
+    </div>
+
+    <!-- 모바일 화면용 햄버거 토글 버튼 -->
+    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="메뉴 열기">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+  </header>
+
+  <!-- =========================================================
+       1. 메인 히어로 섹션 (중앙 비디오 배치)
+       ========================================================= */ -->
+  <section class="hero" id="hero">
+    <!-- 상단 뱃지 문구 -->
+    <div class="hero-badge fade-up">THE NEXT GENERATION HYPERCAR</div>
+
+    <!-- 메인 타이틀 문구 -->
+    <h1 class="hero-title fade-up delay-1">
+      한계를 뛰어넘는 순수 전율<br>
+      <span class="gradient-text">AETHER GT</span>
+    </h1>
+
+    <!-- 서브 안내 문구 -->
+    <p class="hero-desc fade-up delay-2">
+      궁극의 공기역학 디자인과 독보적인 800V 듀얼 모터 시스템.<br>
+      도로 위의 감각을 완전히 새롭게 정의하는 미래를 만나보세요.
+    </p>
+
+    <!-- 
+      비디오 컨테이너 영역 
+      - autoplay: 자동 재생
+      - loop: 무한 반복 재생
+      - muted: 음소거 (브라우저 자동 재생 정책 필수 조건)
+      - playsinline: 모바일 기기에서 전체 화면 전환 없이 인라인 재생
+    -->
+    <div class="video-wrapper fade-up delay-3">
+      <div class="video-container">
+        <video 
+          src="차량 광고 예시 최종.mp4" 
+          autoplay 
+          loop 
+          muted 
+          playsinline 
+          preload="auto">
+          <!-- 비디오를 지원하지 않는 구형 브라우저 안내 문구 -->
+          브라우저가 동영상 재생을 지원하지 않습니다. 최신 브라우저를 이용해 주세요.
+        </video>
+        <!-- 영상 위 은은한 비네팅 그라디언트 오버레이 -->
+        <div class="video-overlay-glow"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       2. 차량 핵심 제원 섹션 (Key Specs)
+       ========================================================= -->
+  <section class="specs-section" id="specs">
+    <div class="section-header fade-up">
+      <span class="section-tag">PERFORMANCE SPECS</span>
+      <h2 class="section-title">압도적인 퍼포먼스 제원</h2>
+    </div>
+
+    <div class="specs-grid">
+      <!-- 스펙 카드 1: 가속도 -->
+      <div class="spec-card fade-up delay-1">
+        <i class="fa-solid fa-stopwatch spec-icon"></i>
+        <div class="spec-value">2.4<span>sec</span></div>
+        <div class="spec-label">0-100 km/h 가속 시간</div>
+      </div>
+
+      <!-- 스펙 카드 2: 최고 출력 -->
+      <div class="spec-card fade-up delay-2">
+        <i class="fa-solid fa-horse-head spec-icon"></i>
+        <div class="spec-value">1,020<span>hp</span></div>
+        <div class="spec-label">트라이 모터 최고 출력</div>
+      </div>
+
+      <!-- 스펙 카드 3: 주행 거리 -->
+      <div class="spec-card fade-up delay-3">
+        <i class="fa-solid fa-route spec-icon"></i>
+        <div class="spec-value">650<span>km</span></div>
+        <div class="spec-label">1회 충전 최대 주행거리</div>
+      </div>
+
+      <!-- 스펙 카드 4: 초고속 충전 -->
+      <div class="spec-card fade-up delay-4">
+        <i class="fa-solid fa-bolt spec-icon"></i>
+        <div class="spec-value">15<span>min</span></div>
+        <div class="spec-label">10-80% 800V 초고속 충전</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       3. 혁신 기술 섹션 (Innovative Features)
+       ========================================================= -->
+  <section class="features-section" id="features">
+    <div class="section-header fade-up">
+      <span class="section-tag">INTELLIGENT TECHNOLOGY</span>
+      <h2 class="section-title">혁신이 만들어낸 디테일</h2>
+    </div>
+
+    <div class="features-container">
+      <!-- 기술 카드 1 -->
+      <div class="feature-card fade-up delay-1">
+        <div class="feature-icon-box">
+          <i class="fa-solid fa-microchip"></i>
+        </div>
+        <h3>Neural Pilot 자율주행 3.0</h3>
+        <p>
+          고성능 초음파 센서와 라이다(LiDAR), 신경망 AI 칩셋이 결합하여 
+          어떤 주행 환경에서도 최상의 안전성과 부드러운 자율주행 경험을 제공합니다.
+        </p>
+      </div>
+
+      <!-- 기술 카드 2 -->
+      <div class="feature-card fade-up delay-2">
+        <div class="feature-icon-box">
+          <i class="fa-solid fa-wind"></i>
+        </div>
+        <h3>0.19 Cd 액티브 에어로다이내믹</h3>
+        <p>
+          속도와 노면 상태에 따라 자동으로 반응하는 가변 리어 스포일러와 에어 플랩을 통해 
+          고속 주행 안정성과 극대화된 전비를 동시에 구현했습니다.
+        </p>
+      </div>
+
+      <!-- 기술 카드 3 -->
+      <div class="feature-card fade-up delay-3">
+        <div class="feature-icon-box">
+          <i class="fa-solid fa-vr-cardboard"></i>
+        </div>
+        <h3>홀로그래픽 증강현실 콕핏</h3>
+        <p>
+          운전자의 시선에 맞춰 앞유리에 직관적으로 주행 정보를 투사하는 
+          차세대 AR HUD와 유기적인 곡면 OLED 디스플레이를 탑재했습니다.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       4. 시승 신청 및 문의 CTA 섹션
+       ========================================================= -->
+  <section class="cta-section" id="experience">
+    <div class="cta-box fade-up">
+      <h2>직접 감각해 보세요</h2>
+      <p>
+        미래 모빌리티의 새로운 기준이 될 AETHER GT의 드라이빙 감각을 
+        가장 먼저 체험하실 수 있도록 프라이빗 시승 세션을 제공합니다.
+      </p>
+      <div class="cta-btn-group">
+        <a href="#hero" class="btn-glow">
+          <i class="fa-solid fa-calendar-check"></i>
+          프라이빗 시승 예약
+        </a>
+        <a href="#" class="btn-secondary" onclick="alert('차량 카탈로그 다운로드가 곧 준비됩니다.'); return false;">
+          <i class="fa-solid fa-download"></i>
+          디지털 카탈로그
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       5. 푸터 (Footer)
+       ========================================================= -->
+  <footer>
+    <div class="footer-content">
+      <div class="logo">
+        <i class="fa-solid fa-bolt-lightning"></i>
+        <span>AETHER</span> GT
+      </div>
+      <ul class="footer-links">
+        <li><a href="#">개인정보 처리방침</a></li>
+        <li><a href="#">이용약관</a></li>
+        <li><a href="#">고객센터</a></li>
+        <li><a href="#">쇼룸 위치 안내</a></li>
+      </ul>
+      <p>© 2026 AETHER MOTORS INC. ALL RIGHTS RESERVED.</p>
+    </div>
+  </footer>
+
+  <!-- =========================================================
+       자바스크립트 인터랙션 및 스크롤 애니메이션 로직
+       ========================================================= -->
+  <script>
+    // 1. 문서가 모두 준비되면 실행되도록 이벤트 리스너 등록
+    document.addEventListener("DOMContentLoaded", () => {
+      
+      /* -------------------------------------------------------
+         2. 부드러운 스크롤 등장 애니메이션 (Intersection Observer)
+         설명: 화면을 스크롤할 때 요소가 눈에 보이면 .visible 클래스를 붙여
+               CSS에 정의된 fade-up 애니메이션을 부드럽게 발동시킵니다.
+         ------------------------------------------------------- */
+      const animatedElements = document.querySelectorAll(".fade-up");
+
+      // 관찰자(Observer) 옵션 설정
+      const observerOptions = {
+        root: null,         // 뷰포트 기준
+        rootMargin: "0px",  // 추가 여백 없음
+        threshold: 0.15     // 요소가 15% 이상 화면에 들어왔을 때 트리거
+      };
+
+      const scrollObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // 화면에 요소가 나타나면 visible 클래스를 추가하여 서서히 떠오르게 함
+            entry.target.classList.add("visible");
+            // 한 번 나타난 요소는 다시 감시하지 않아 성능을 최적화함
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      // 모든 fade-up 대상 요소를 관찰자에 등록
+      animatedElements.forEach(el => scrollObserver.observe(el));
+
+
+      /* -------------------------------------------------------
+         3. 스크롤 위치에 따른 네비게이션 헤더 스타일 변화
+         설명: 사용자가 페이지를 아래로 내리면 헤더가 좀 더 어두워지고 
+               그림자 효과를 주어 가독성을 높입니다.
+         ------------------------------------------------------- */
+      const header = document.getElementById("mainHeader");
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 50) {
+          header.classList.add("scrolled");
+        } else {
+          header.classList.remove("scrolled");
+        }
+      });
+
+
+      /* -------------------------------------------------------
+         4. 모바일 화면 전용 햄버거 메뉴 토글 기능
+         설명: 작은 화면에서 메뉴 아이콘 클릭 시 메뉴 목록이 열리고 닫힙니다.
+         ------------------------------------------------------- */
+      const mobileBtn = document.getElementById("mobileMenuBtn");
+      const navLinks = document.getElementById("navLinks");
+
+      if (mobileBtn && navLinks) {
+        mobileBtn.addEventListener("click", () => {
+          navLinks.classList.toggle("active");
+          
+          // 아이콘 모양 변경 (햄버거 ↔ X자 닫기 아이콘)
+          const icon = mobileBtn.querySelector("i");
+          if (navLinks.classList.contains("active")) {
+            icon.classList.remove("fa-bars");
+            icon.classList.add("fa-xmark");
+          } else {
+            icon.classList.remove("fa-xmark");
+            icon.classList.add("fa-bars");
+          }
+        });
+
+        // 메뉴 링크를 클릭하면 메뉴창이 자동으로 닫히도록 설정
+        navLinks.querySelectorAll("a").forEach(link => {
+          link.addEventListener("click", () => {
+            navLinks.classList.remove("active");
+            const icon = mobileBtn.querySelector("i");
+            icon.classList.remove("fa-xmark");
+            icon.classList.add("fa-bars");
+          });
+        });
+      }
+
+
+      /* -------------------------------------------------------
+         5. 동영상 자동 재생 안전장치
+         설명: 일부 브라우저의 엄격한 자동재생 정책에 대비하여, 
+               음소거 상태를 재확인하고 play() 메서드를 안전하게 호출합니다.
+         ------------------------------------------------------- */
+      const carVideo = document.querySelector(".video-container video");
+      if (carVideo) {
+        carVideo.muted = true; // 음소거 필수 확인
+        const playPromise = carVideo.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(error => {
+            console.log("브라우저 자동재생 정책으로 인해 사용자 제스처 대기 중:", error);
+          });
+        }
+      }
+
+    });
+  </script>
+</body>
+</html>
+
